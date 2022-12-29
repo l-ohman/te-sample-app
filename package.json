@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
+    "axios": "^1.2.2",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemon": "^2.0.20",
     "path": "^0.12.7",
@@ -22,6 +24,7 @@
     "react-router-dom": "^6.4.3",
     "redux-logger": "^3.0.6",
     "swr": "^2.0.0",
+    "tradingeconomics": "^2.1.0",
     "volleyball": "^1.5.1",
     "webpack-cli": "^4.10.0"
   },
