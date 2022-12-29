@@ -1,5 +1,3 @@
-## New project
+## Trading Economics - Sample App
 
-Custom boilerplate
-
-Db name in `server/db/db` is "placeholder"
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus luctus dolor. Aliquam vitae justo nec lorem dignissim tempus sit amet a odio. Cras vitae lacus et libero lobortis ornare. Aenean id massa vitae nulla sodales varius porttitor ut ipsum. Duis viverra dolor quis convallis suscipit. Integer egestas sit amet justo a interdum. Proin semper ligula arcu, a ultricies velit convallis et. Pellentesque cursus mi in massa bibendum, vitae aliquet libero accumsan. Integer id efficitur quam, in pellentesque est.
