@@ -1,16 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// just using general 'data' until i have a specific idea of what data is needed
 const data = createSlice({
   name: "data",
   initialState: [],
   reducers: {
     addData: (state, action) => {
-      return state[action.payload.country][action.payload.category] = action.payload.data;
+      const data = action.payload;
+      state[data.country][data.indicator] = data.data;
+      return state;
     },
   },
 });
 
 export default data.reducer;
-export const { addData } = data.actions;
+
+const { addData } = data.actions;
+export const fetchData = (country, indicator) => async (dispatch) => {
+  const data = await axios.get(`/api/${country}/${indicator}`);
+
+  if (Object.keys(data).length > 0) {
+    addData(data);
+  } else {
+    console.error("Unable to fetch any data");
+  }
+};
