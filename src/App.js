@@ -1,21 +1,32 @@
 import React from "react";
 import axios from "axios";
 import useSWR from "swr";
+import { useDispatch } from "react-redux";
+// components / redux
+import { Error, Loading } from "./components";
+import { addData } from "./store/data";
 
-const fetcher = (url) => axios.get(url).then(res => res.data)
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function App() {
+  const dispatch = useDispatch();
   const { data, error, isLoading } = useSWR("/api/data", fetcher);
-  
+
   React.useEffect(() => {
     if (!isLoading && !error) {
-      console.log(data);
+      dispatch(addData(data));
     }
   }, [data]);
-  
-  return (
-        <div>
-            <h2>{isLoading ? "Loading data" : "Data succesfully loaded"}</h2>
-        </div>
+
+  if (isLoading) {
+    return <Loading />;
+  } else if (error) {
+    return <Error />;
+  } else {
+    return (
+      <div>
+        <h2>Data successfully loaded</h2>
+      </div>
     );
+  }
 }
