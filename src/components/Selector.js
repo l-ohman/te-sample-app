@@ -21,8 +21,7 @@ export default function Selector() {
   const handleClick = async() => {
     if (country && indicator) {
       console.log(`Querying for ${indicator} of ${country}`);
-      const data = await dispatch(fetchData(country, indicator));
-      console.log(data);
+       await dispatch(fetchData(country, indicator));
     } else {
       alert(country ? "No indicator selected" : "No country selected");
     }

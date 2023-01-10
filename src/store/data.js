@@ -13,7 +13,7 @@ const data = createSlice({
   reducers: {
     addData: (state, action) => {
       const data = action.payload;
-      state[data.country][data.indicator] = data.data;
+      state[data.country][data.indicator] = data.res;
       return state;
     },
   },
@@ -23,19 +23,23 @@ export default data.reducer;
 
 const { addData } = data.actions;
 export const fetchData = (country, indicator) => async (dispatch) => {
-  // must convert indicator to slug to make API call
-  // indicator = indicator.split(" ").join("_");
-  let { data } = await axios.get(`/api/${country}/${indicator}`);
-  data = {
-    data,
+  const { data } = await axios.get(`/api/${country}/${indicator}`);
+  // restructuring data from API to be graphed
+  const restructuredData = {
+    x: [],
+    y: []
+  };
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].Value === 0) continue;
+    
+    // year: String, value: Number
+    restructuredData.x.push(data[i].DateTime.slice(0, 4));
+    restructuredData.y.push(data[i].Value);
+  }
+
+  dispatch(addData({
+    res: restructuredData,
     country,
     indicator,
-  };
-
-  if (Object.keys(data).length > 0) {
-    dispatch(addData(data));
-    return data;
-  } else {
-    console.error("Unable to fetch any data");
-  }
+  }));
 };
