@@ -2,20 +2,18 @@ require("dotenv").config();
 const router = require("express").Router();
 const te = require("tradingeconomics");
 // Available countries with free key: Mexico, Sweden, Thailand, New Zealand
-const countries = ["Mexico", "Sweden", "Thailand", "New Zealand"];
-const indicators = require("../indicatorList.json");
+const queries = require("../availableQueries.json");
+const countries = queries.countries;
+const indicators = queries.indicators;
 
 router.get("/:country/:indicator", async (req, res) => {
   try {
     await te.login(process.env.API_KEY || "guest:guest");
     
-    const data = await te.getIndicatorData(country=req.country, group=req.indicator);
-    
-    // const data = await te.getIndicatorData(indicator="Coronavirus Cases");
-    // const data = await te.getIndicatorData(indicator="Corruption Rank");
-    
-    // gets list of companies in a specific countries
-    // const data = await te.getFinancialsData(country="China");
+    const data = await te.getIndicatorData(country=req.params.country, group=req.params.indicator);
+    // const data = await te.getIndicatorData(country=req.params.country, group=req.params.indicator);
+    // const data = await te.getIndicatorData(country="Mexico", indicator="GDP from Agriculture");
+    console.log(data);
     
     res.send(data);
   } catch (e) {

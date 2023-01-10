@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+// import { countries } from "../../availableQueries.json";
 
 const data = createSlice({
   name: "data",
-  initialState: [],
+  initialState: {
+    "Mexico": {},
+    "Sweden": {},
+    "Thailand": {},
+    "New Zealand": {},
+  },
   reducers: {
     addData: (state, action) => {
       const data = action.payload;
@@ -17,10 +23,18 @@ export default data.reducer;
 
 const { addData } = data.actions;
 export const fetchData = (country, indicator) => async (dispatch) => {
-  const data = await axios.get(`/api/${country}/${indicator}`);
+  // must convert indicator to slug to make API call
+  // indicator = indicator.split(" ").join("_");
+  let { data } = await axios.get(`/api/${country}/${indicator}`);
+  data = {
+    data,
+    country,
+    indicator,
+  };
 
   if (Object.keys(data).length > 0) {
-    addData(data);
+    dispatch(addData(data));
+    return data;
   } else {
     console.error("Unable to fetch any data");
   }
