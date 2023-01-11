@@ -6,8 +6,6 @@
         "Thailand"
     ],
     "indicators": [
-        "GDP",
-        "Population",
-        "Climate"
+        "GDP"
     ]
 }

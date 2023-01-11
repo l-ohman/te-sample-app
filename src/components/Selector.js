@@ -1,53 +1,45 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/data";
-import queries from "../../availableQueries.json";
+import { toggleCountry } from "../store/selection";
+import countries from "../../availableCountries.json";
 
 // dropdown selection for countries/indicators
 export default function Selector() {
   const dispatch = useDispatch();
+  const selection = useSelector(state => state.selection);
   
   const [country, selectCountry] = React.useState("");
-  const [indicator, selectIndicator] = React.useState("");
-
+  
   const handleChange = (e) => {
-    if (e.target.name === "country") {
-      selectCountry(e.target.value);
-    } else {
-      selectIndicator(e.target.value);
-    }
-  };
-
-  const handleClick = async() => {
-    if (country && indicator) {
-      console.log(`Querying for ${indicator} of ${country}`);
-       await dispatch(fetchData(country, indicator));
-    } else {
-      alert(country ? "No indicator selected" : "No country selected");
-    }
-  };
+    // console.log(e.target.checked);
+    dispatch(toggleCountry(e.target.id));
+  }
 
   return (
-    <div>
-      <h3>Selector</h3>
-      <select name="country" onChange={handleChange} value={country}>
-        <option value="">- Select a country -</option>
-        {queries.countries.map((country, idx) => (
-          <option value={country} key={idx}>
-            {country}
-          </option>
-        ))}
-      </select>
-
-      <select name="indicator" onChange={handleChange} value={indicator}>
-        <option value="">- Select a category -</option>
-        {queries.indicators.map((category, idx) => (
-          <option value={category} key={idx}>
-            {category}
-          </option>
-        ))}
-      </select>
-      <button onClick={handleClick}>Add data to chart</button>
+    <div id="selection-container">
+      <h3>Select countries to compare GDPs</h3>
+      <div id="all-countries-checkboxes">
+        <div className="single-country-checkbox-container">  
+          <input type="checkbox" id="Mexico" onChange={handleChange} defaultChecked/>
+          <label>Mexico</label>
+        </div>
+        
+        <div className="single-country-checkbox-container">  
+          <input type="checkbox" id="New Zealand" onChange={handleChange}/>
+          <label>New Zealand</label>
+        </div>
+        
+        <div className="single-country-checkbox-container">  
+          <input type="checkbox" id="Sweden" onChange={handleChange}/>
+          <label>Sweden</label>
+        </div>
+        
+        <div className="single-country-checkbox-container">  
+          <input type="checkbox" id="Thailand" onChange={handleChange}/>
+          <label>Thailand</label>
+        </div>
+      </div>
     </div>
   );
 }

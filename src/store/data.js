@@ -1,14 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-// import { countries } from "../../availableQueries.json";
 
 const data = createSlice({
   name: "data",
   initialState: {
-    "Mexico": {},
-    "Sweden": {},
-    "Thailand": {},
-    "New Zealand": {},
+    "Mexico": [],
+    "Sweden": [],
+    "Thailand": [],
+    "New Zealand": [],
   },
   reducers: {
     addData: (state, action) => {
