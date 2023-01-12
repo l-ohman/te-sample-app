@@ -30,8 +30,8 @@ export const fetchData = (country, indicator="GDP") => async (dispatch) => {
   for (let i = 0; i < data.length; i++) {
     if (data[i].Value === 0) continue;
     
-    // year: String, value: Number
-    restructuredData.x.push(data[i].DateTime.slice(0, 4));
+    // year: Number, value: Number
+    restructuredData.x.push(Number(data[i].DateTime.slice(0, 4)));
     restructuredData.y.push(data[i].Value);
   }
 

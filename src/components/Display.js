@@ -1,44 +1,47 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Plot, { Layout } from 'react-plotly.js';
+import Plot from "react-plotly.js";
 
-// graph/chart to display the data specified by the user
+// Graph/chart to display the data specified by the user
 export default function Display() {
-  const allData = useSelector(state => state.data);
-  const selection = useSelector(state => state.selection);
-  
-  const colorSelection = (country) => {
-    switch (country) {
-      case "Mexico":
-        return "green";
-      case "New Zealand":
-        return "orange";
-      case "Sweden":
-        return "blue";
-      case "Thailand":
-        return "red";
-    }
+  const data = useSelector((state) => state.data);
+  const selection = useSelector((state) => state.selection);
+
+  const colors = {
+    Mexico: "green",
+    "New Zealand": "orange",
+    Sweden: "blue",
+    Thailand: "red",
   };
-  
+
   const plotter = (data, country) => {
     return {
-      data,
+      ...data,
       type: "scatter",
       mode: "lines+markers",
-      marker: {color: colorSelection(country)},
+      marker: { color: colors[country] },
     };
   };
-  
+
+  const [plottedData, setPlottedData] = React.useState([]);
+  React.useEffect(() => {
+    if (selection.length > 0) {
+      setPlottedData(selection.map((country) => plotter(data[country], country)));
+    } else {
+      setPlottedData([]);
+    }
+  }, [selection]);
+
   return (
     <div>
       <h3>Graph</h3>
-      {/* <Plot
-        data={a}
+      <Plot
+        data={plottedData}
         layout={{
-          xaxis: {range: [1990,2021]},
-          yaxis: {range: [0, 5000]},
+          xaxis: { range: [1990, 2021] },
+          yaxis: { range: [0, 1000] },
         }}
-      /> */}
+      />
     </div>
   );
 }

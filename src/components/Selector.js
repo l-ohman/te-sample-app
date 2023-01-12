@@ -1,17 +1,18 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/data";
-import { toggleCountry } from "../store/selection";
+import { selectCountry, unselectCountry } from "../store/selection";
 
-// dropdown selection for countries/indicators
+// Dropdown selection for countries/indicators
 export default function Selector() {
   const dispatch = useDispatch();
   const data = useSelector(state => state.data);
   
   const handleChange = async (e) => {
-    dispatch(toggleCountry(e.target.id));
+    e.target.checked ? dispatch(selectCountry(e.target.id)) : dispatch(unselectCountry(e.target.id));
+    
+    // If the store does not yet have the data, retrieve it from the API
     if (Object.keys(data[e.target.id]).length === 0) {
-      // if the store does not yet have the data, retrieve it from the API
       await dispatch(fetchData(e.target.id));
     }
   }
@@ -21,7 +22,7 @@ export default function Selector() {
       <h3>Select countries to compare GDPs</h3>
       <div id="all-countries-checkboxes">
         <div className="single-country-checkbox-container">  
-          <input type="checkbox" id="Mexico" onChange={handleChange} defaultChecked/>
+          <input type="checkbox" id="Mexico" onChange={handleChange}/>
           <label>Mexico</label>
         </div>
         

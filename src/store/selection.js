@@ -3,19 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 // manages which countries the user has selected to display
 const selection = createSlice({
   name: "selection",
-  initialState: {
-    "Mexico": true,
-    "New Zealand": false,
-    "Sweden": false,
-    "Thailand": false,
-  },
+  initialState: [],
   reducers: {
-    toggleCountry: (state, action) => {
-      state[action.payload] = !state[action.payload];
+    selectCountry: (state, action) => {
+      state.push(action.payload);
       return state;
     },
+    unselectCountry: (state, action) => {
+      const countryIdx = state.indexOf(action.payload);
+      state.splice(countryIdx, 1);
+      return state;
+    }
   },
 });
 
 export default selection.reducer;
-export const { toggleCountry } = selection.actions;
+export const { selectCountry, unselectCountry } = selection.actions;
