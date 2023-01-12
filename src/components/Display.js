@@ -27,9 +27,9 @@ export default function Display() {
   };
 
   // Scales y-axis with selection
-  const [yMax, setYMax] = React.useState(500);
+  const [yMax, setYMax] = React.useState(300);
   const updateYAxis = () => {
-    let highestGDPInSelection = 500;
+    let highestGDPInSelection = 300;
     for (let i = 0; i < selection.length; i++) {
       if (data[selection[i]].y) {
         const currentGDP = Math.max(...data[selection[i]].y) * 1.1;
@@ -53,13 +53,39 @@ export default function Display() {
   }, [selection, data]);
 
   return (
-    <div>
-      <h3>Graph</h3>
+    <div id="plot-container">
       <Plot
         data={plottedData}
         layout={{
-          xaxis: { range: [1980, 2021] },
-          yaxis: { range: [0, yMax] },
+          xaxis: { 
+            range: [1980, 2021],
+            title: {
+              text: "Year",
+              font: {
+                family: "IBM Plex Sans Condensed",
+                size: 18,
+              }
+            }
+          },
+          yaxis: {
+            range: [0, yMax],
+            title: {
+              text: "Billion USD",
+              font: {
+                family: "IBM Plex Sans Condensed",
+                size: 18,
+              }
+            }
+          },
+          title: {
+            text: selection.length===0 ? "No countries selected" :
+              selection.length===1 ? `GDP of ${selection[0]}` :
+              `Comparing GDPs of ${selection.join(", ")}`,
+            font: {
+              family: "IBM Plex Sans Condensed",
+              size: 22,
+            }
+          }
         }}
       />
     </div>
