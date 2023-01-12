@@ -14,15 +14,34 @@ export default function Display() {
     Thailand: "red",
   };
 
+  // Creates data structure for plotly.js
   const plotter = (data, country) => {
     return {
       ...data,
+      name: country,
       type: "scatter",
       mode: "lines+markers",
       marker: { color: colors[country] },
+      showlegend: true,
     };
   };
 
+  // Scales y-axis with selection
+  const [yMax, setYMax] = React.useState(500);
+  const updateYAxis = () => {
+    let highestGDPInSelection = 500;
+    for (let i = 0; i < selection.length; i++) {
+      if (data[selection[i]].y) {
+        const currentGDP = Math.max(...data[selection[i]].y) * 1.1;
+        if (currentGDP > highestGDPInSelection) {
+          highestGDPInSelection = currentGDP;
+        }
+      }
+    }
+    setYMax(highestGDPInSelection);
+  }
+
+  // Updates plot when selection/data changes
   const [plottedData, setPlottedData] = React.useState([]);
   React.useEffect(() => {
     if (selection.length > 0) {
@@ -30,7 +49,8 @@ export default function Display() {
     } else {
       setPlottedData([]);
     }
-  }, [selection]);
+    updateYAxis();
+  }, [selection, data]);
 
   return (
     <div>
@@ -38,8 +58,8 @@ export default function Display() {
       <Plot
         data={plottedData}
         layout={{
-          xaxis: { range: [1990, 2021] },
-          yaxis: { range: [0, 1000] },
+          xaxis: { range: [1980, 2021] },
+          yaxis: { range: [0, yMax] },
         }}
       />
     </div>
