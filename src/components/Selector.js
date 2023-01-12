@@ -2,18 +2,18 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/data";
 import { toggleCountry } from "../store/selection";
-import countries from "../../availableCountries.json";
 
 // dropdown selection for countries/indicators
 export default function Selector() {
   const dispatch = useDispatch();
-  const selection = useSelector(state => state.selection);
+  const data = useSelector(state => state.data);
   
-  const [country, selectCountry] = React.useState("");
-  
-  const handleChange = (e) => {
-    // console.log(e.target.checked);
+  const handleChange = async (e) => {
     dispatch(toggleCountry(e.target.id));
+    if (Object.keys(data[e.target.id]).length === 0) {
+      // if the store does not yet have the data, retrieve it from the API
+      await dispatch(fetchData(e.target.id));
+    }
   }
 
   return (

@@ -4,15 +4,14 @@ import axios from "axios";
 const data = createSlice({
   name: "data",
   initialState: {
-    "Mexico": [],
-    "Sweden": [],
-    "Thailand": [],
-    "New Zealand": [],
+    "Mexico": {},
+    "Sweden": {},
+    "Thailand": {},
+    "New Zealand": {},
   },
   reducers: {
     addData: (state, action) => {
-      const data = action.payload;
-      state[data.country][data.indicator] = data.res;
+      state[action.payload.country] = action.payload.data;
       return state;
     },
   },
@@ -21,7 +20,7 @@ const data = createSlice({
 export default data.reducer;
 
 const { addData } = data.actions;
-export const fetchData = (country, indicator) => async (dispatch) => {
+export const fetchData = (country, indicator="GDP") => async (dispatch) => {
   const { data } = await axios.get(`/api/${country}/${indicator}`);
   // restructuring data from API to be graphed
   const restructuredData = {
@@ -37,8 +36,7 @@ export const fetchData = (country, indicator) => async (dispatch) => {
   }
 
   dispatch(addData({
-    res: restructuredData,
-    country,
-    indicator,
+    data: restructuredData,
+    country
   }));
 };

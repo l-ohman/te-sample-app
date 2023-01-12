@@ -1,6 +1,13 @@
 ## Trading Economics - Sample App
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus luctus dolor. Aliquam vitae justo nec lorem dignissim tempus sit amet a odio.
+To run application locally:
+1. Clone this repository
+2. Navigate to this directory and run `npm i`
+3. Create a ".env" file in the root directory
+4. In ".env", write your API key as such: `API_KEY="yourApiKeyHere"`
+5. Run the following command: `npm run build && npm start`
+
+The project will be available for viewing on port 3000
 
 <!-- Instructions received via email:
 

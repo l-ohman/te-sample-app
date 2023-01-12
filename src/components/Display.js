@@ -32,13 +32,13 @@ export default function Display() {
   return (
     <div>
       <h3>Graph</h3>
-      <Plot
-        data={allData.map}
+      {/* <Plot
+        data={a}
         layout={{
           xaxis: {range: [1990,2021]},
           yaxis: {range: [0, 5000]},
         }}
-      />
+      /> */}
     </div>
   );
 }

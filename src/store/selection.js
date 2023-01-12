@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 // manages which countries the user has selected to display
 const selection = createSlice({
