@@ -60,17 +60,21 @@ export default function Graph() {
     updateYAxis();
   }, [selection, data]);
 
+  // Sets graph width based on initial window size
+  const calculateWidth = () => {
+    if (window.innerWidth <= 360) return 360;
+    else if (window.innerWidth <= 800) return window.innerWidth;
+
+    const lerpWidth = window.innerWidth + (window.innerWidth - 800) * 0.5;
+    return Math.min(1300, lerpWidth);
+  };
+
   return (
     <div id="plot-container">
       <Plot
         data={plottedData}
         layout={{
-          width:
-            window.innerWidth > 1400
-              ? 1400
-              : window.innerWidth < 375
-              ? 375
-              : window.innerWidth,
+          width: calculateWidth(),
           xaxis: {
             range: [1980, 2021],
             title: {
@@ -97,7 +101,11 @@ export default function Graph() {
                 ? "No countries selected"
                 : selection.length === 1
                 ? `GDP of ${selection[0]}`
-                : `GDPs of ${selection.map(country => window.innerWidth > 650 ? country : abbr[country]).join(", ")}`,
+                : `GDPs of ${selection
+                    .map((country) =>
+                      window.innerWidth > 650 ? country : abbr[country]
+                    )
+                    .join(", ")}`,
             font: {
               family: "IBM Plex Sans Condensed",
               size: 22,

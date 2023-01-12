@@ -3,10 +3,11 @@ import { Error, Loading, Graph, Selector } from "./components";
 
 export default function App() {
   return (
-      <div>
-        <h1>Trading Economics Sample Application</h1>
+      <>
+        <h1 id="page-header">Trading Economics Sample Application</h1>
         <Selector />
         <Graph />
-      </div>
+        {/* <Footer /> */}
+      </>
     );
 }
