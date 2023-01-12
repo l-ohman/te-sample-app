@@ -2,23 +2,29 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Plot from "react-plotly.js";
 
+const colors = {
+  Mexico: "green",
+  "New Zealand": "orange",
+  Sweden: "blue",
+  Thailand: "red",
+};
+const abbr = {
+  Mexico: "MX",
+  "New Zealand": "NZ",
+  Sweden: "SE",
+  Thailand: "TH",
+};
+
 // Graph/chart to display the data specified by the user
-export default function Display() {
+export default function Graph() {
   const data = useSelector((state) => state.data);
   const selection = useSelector((state) => state.selection);
-
-  const colors = {
-    Mexico: "green",
-    "New Zealand": "orange",
-    Sweden: "blue",
-    Thailand: "red",
-  };
 
   // Creates data structure for plotly.js
   const plotter = (data, country) => {
     return {
       ...data,
-      name: country,
+      name: window.innerWidth > 550 ? country : abbr[country],
       type: "scatter",
       mode: "lines+markers",
       marker: { color: colors[country] },
@@ -39,13 +45,15 @@ export default function Display() {
       }
     }
     setYMax(highestGDPInSelection);
-  }
+  };
 
   // Updates plot when selection/data changes
   const [plottedData, setPlottedData] = React.useState([]);
   React.useEffect(() => {
     if (selection.length > 0) {
-      setPlottedData(selection.map((country) => plotter(data[country], country)));
+      setPlottedData(
+        selection.map((country) => plotter(data[country], country))
+      );
     } else {
       setPlottedData([]);
     }
@@ -57,15 +65,21 @@ export default function Display() {
       <Plot
         data={plottedData}
         layout={{
-          xaxis: { 
+          width:
+            window.innerWidth > 1400
+              ? 1400
+              : window.innerWidth < 375
+              ? 375
+              : window.innerWidth,
+          xaxis: {
             range: [1980, 2021],
             title: {
               text: "Year",
               font: {
                 family: "IBM Plex Sans Condensed",
                 size: 18,
-              }
-            }
+              },
+            },
           },
           yaxis: {
             range: [0, yMax],
@@ -74,18 +88,21 @@ export default function Display() {
               font: {
                 family: "IBM Plex Sans Condensed",
                 size: 18,
-              }
-            }
+              },
+            },
           },
           title: {
-            text: selection.length===0 ? "No countries selected" :
-              selection.length===1 ? `GDP of ${selection[0]}` :
-              `Comparing GDPs of ${selection.join(", ")}`,
+            text:
+              selection.length === 0
+                ? "No countries selected"
+                : selection.length === 1
+                ? `GDP of ${selection[0]}`
+                : `GDPs of ${selection.map(country => window.innerWidth > 650 ? country : abbr[country]).join(", ")}`,
             font: {
               family: "IBM Plex Sans Condensed",
               size: 22,
-            }
-          }
+            },
+          },
         }}
       />
     </div>
