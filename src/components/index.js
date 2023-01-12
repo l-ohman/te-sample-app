@@ -1,6 +1,5 @@
-import Error from "./Error";
-import Loading from "./Loading";
 import Graph from "./Graph";
 import Selector from "./Selector";
+import Footer from "./Footer";
 
-export { Error, Loading, Graph, Selector };
+export { Graph, Selector, Footer };

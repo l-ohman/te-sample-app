@@ -65,7 +65,7 @@ export default function Graph() {
     if (window.innerWidth <= 360) return 360;
     else if (window.innerWidth <= 800) return window.innerWidth;
 
-    const lerpWidth = window.innerWidth + (window.innerWidth - 800) * 0.5;
+    const lerpWidth = window.innerWidth - (window.innerWidth - 800) * 0.5;
     return Math.min(1300, lerpWidth);
   };
 
