@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const Dotenv = require("dotenv-webpack");
+const webpack = require("webpack");
 
 module.exports = {
   mode: "development",
@@ -15,7 +16,13 @@ module.exports = {
       directory: __dirname + "/public",
     },
   },
-  plugins: [new MiniCssExtractPlugin({ filename: "main.css" }), new Dotenv()],
+  plugins: [
+    new MiniCssExtractPlugin({ filename: "main.css" }),
+    new Dotenv(),
+    new webpack.DefinePlugin({
+      __REACT_DEVTOOLS_GLOBAL_HOOK__: "({ isDisabled: true })",
+    }),
+  ],
   module: {
     rules: [
       {
