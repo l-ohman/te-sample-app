@@ -4,6 +4,4 @@ node_modules/tradingeconomics/*
 !node_modules/tradingeconomics/auth.js
 
 .env
-bundle.js.map
-main.css.map
 .DS_Store
