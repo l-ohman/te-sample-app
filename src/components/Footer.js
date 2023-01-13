@@ -5,7 +5,7 @@ import { IoMail, IoDocumentTextSharp } from "react-icons/io5";
 export default function Footer() {
   return (
     <div id="footer">
-      <p>Sample project by Jake Lohman for Trading Economics</p>
+      <p>Sample project by Jake Lohman</p>
       <div id="footer-links-container">
         <a
           href="mailto:jakelohman7@gmail.com"
@@ -24,7 +24,7 @@ export default function Footer() {
         </a>
 
         <a
-          href="https://github.com/l-ohman"
+          href="https://github.com/l-ohman/te-sample-app"
           target="_blank"
           rel="noopener noreferrer"
         >

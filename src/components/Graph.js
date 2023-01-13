@@ -15,7 +15,16 @@ const abbr = {
   Thailand: "TH",
 };
 
-// Graph/chart to display the data specified by the user
+// Dynamic width for graph based on window width
+const calculateWidth = () => {
+  if (window.innerWidth <= 360) return 360;
+  else if (window.innerWidth <= 675) return Math.max(window.innerWidth * 0.95, 360);
+
+  const lerpWidth = window.innerWidth - (window.innerWidth - 675) * 0.4;
+  return Math.min(1300, lerpWidth * 0.95);
+};
+
+// Component
 export default function Graph() {
   const data = useSelector((state) => state.data);
   const selection = useSelector((state) => state.selection);
@@ -24,7 +33,7 @@ export default function Graph() {
   const plotter = (data, country) => {
     return {
       ...data,
-      name: window.innerWidth > 550 ? country : abbr[country],
+      name: graphWidth > 550 ? country : abbr[country],
       type: "scatter",
       mode: "lines+markers",
       marker: { color: colors[country] },
@@ -32,7 +41,7 @@ export default function Graph() {
     };
   };
 
-  // Scales y-axis with selection
+  // Scales y-axis based on country selection
   const [yMax, setYMax] = React.useState(300);
   const updateYAxis = () => {
     let highestGDPInSelection = 300;
@@ -60,21 +69,23 @@ export default function Graph() {
     updateYAxis();
   }, [selection, data]);
 
-  // Sets graph width based on initial window size
-  const calculateWidth = () => {
-    if (window.innerWidth <= 360) return 360;
-    else if (window.innerWidth <= 800) return window.innerWidth;
+  // Graph needs to update width if page-width changes
+  const [graphWidth, setGraphWidth] = React.useState(
+    calculateWidth(window.innerWidth)
+  );
 
-    const lerpWidth = window.innerWidth - (window.innerWidth - 800) * 0.5;
-    return Math.min(1300, lerpWidth);
-  };
+  React.useEffect(() => {
+    window.addEventListener("resize", () => {
+      setGraphWidth(calculateWidth(window.innerWidth));
+    });
+  }, []);
 
   return (
     <div id="plot-container">
       <Plot
         data={plottedData}
         layout={{
-          width: calculateWidth(),
+          width: graphWidth,
           xaxis: {
             range: [1980, 2021],
             title: {
