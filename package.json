@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx webpack server"
+    "start": "npx webpack server",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",

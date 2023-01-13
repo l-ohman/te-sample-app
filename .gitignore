@@ -1,4 +1,8 @@
-node_modules
+node_modules/*
+!node_modules/tradingeconomics
+node_modules/tradingeconomics/*
+!node_modules/tradingeconomics/auth.js
+
 .env
 bundle.js*
 main.css*
